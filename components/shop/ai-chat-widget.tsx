@@ -243,10 +243,9 @@ export function AiChatWidget() {
             </div>
 
             <div className="text-left hidden sm:block">
-              <div className="text-xs font-bold text-white leading-tight flex items-center gap-1">
-                BaharSe AI <span className="text-[10px] text-gold-400 font-normal">Online</span>
+              <div className="text-xs font-bold text-white leading-tight flex items-center gap-1.5">
+                BaharSe Support <span className="text-[10px] text-emerald-400 font-semibold">• Online</span>
               </div>
-              <div className="text-[10px] text-slate-300">Gemini & Grok Assistant</div>
             </div>
           </div>
         </button>
@@ -267,13 +266,13 @@ export function AiChatWidget() {
 
               <div>
                 <h3 className="text-sm font-bold text-white flex items-center gap-1.5 leading-tight font-serif">
-                  BaharSe AI Concierge
+                  BaharSe Support
                   <span className="text-[10px] font-sans px-1.5 py-0.5 rounded-full bg-gold-500/20 text-gold-300 border border-gold-500/30 font-semibold">
                     Live
                   </span>
                 </h3>
                 <p className="text-[11px] text-slate-300">
-                  Powered by Gemini & Grok • 24/7 Support
+                  Instant Product & Order Assistance • 24/7
                 </p>
               </div>
             </div>
@@ -329,9 +328,9 @@ export function AiChatWidget() {
 
                 <div className="flex items-center gap-1 text-[10px] text-slate-400 mt-1 px-1">
                   <span>{msg.timestamp}</span>
-                  {msg.provider && msg.provider !== "concierge" && (
-                    <span className="text-slate-400 font-mono">
-                      • {msg.provider === "gemini" ? "Google Gemini" : msg.provider === "grok" ? "xAI Grok" : "Direct Knowledge"}
+                  {msg.role === "assistant" && (
+                    <span className="text-slate-400">
+                      • BaharSe Support
                     </span>
                   )}
                 </div>
@@ -345,7 +344,7 @@ export function AiChatWidget() {
                   <span className="w-2 h-2 rounded-full bg-gold-500 animate-bounce" style={{ animationDelay: "0ms" }} />
                   <span className="w-2 h-2 rounded-full bg-gold-500 animate-bounce" style={{ animationDelay: "150ms" }} />
                   <span className="w-2 h-2 rounded-full bg-gold-500 animate-bounce" style={{ animationDelay: "300ms" }} />
-                  <span className="text-[11px] text-slate-400 ml-1 font-medium">BaharSe AI is typing...</span>
+                  <span className="text-[11px] text-slate-400 ml-1 font-medium">BaharSe Support is typing...</span>
                 </div>
               </div>
             )}
