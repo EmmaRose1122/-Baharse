@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { Sparkles, Flame, ArrowRight, Zap, ShieldCheck, Tag } from "lucide-react";
+import { Flame, ArrowRight, Sparkles } from "lucide-react";
 
 interface SaleCardItem {
   id: string;
@@ -11,7 +11,6 @@ interface SaleCardItem {
   title: string;
   origin: string;
   discount: string;
-  priceNote: string;
   href: string;
   icon: string;
 }
@@ -20,66 +19,60 @@ const SALE_CARDS: SaleCardItem[] = [
   {
     id: "sale-1",
     badge: "FLASH SALE",
-    badgeColor: "bg-red-500/20 text-red-300 border-red-500/40",
+    badgeColor: "bg-red-100 text-red-700 border-red-200/90",
     title: "Dubai Royal Oud & French Perfumes",
     origin: "✈️ UAE Direct Import",
     discount: "35% OFF",
-    priceNote: "From Rs. 4,999 (Was Rs. 7,500)",
     href: "/category/perfumes",
     icon: "💎",
   },
   {
     id: "sale-2",
     badge: "HOT DEAL",
-    badgeColor: "bg-amber-500/20 text-amber-300 border-amber-500/40",
+    badgeColor: "bg-amber-100 text-amber-900 border-amber-300",
     title: "Pure Kashmiri Super Negin Saffron",
-    origin: "🌿 European Lab Tested",
+    origin: "🌿 European Lab Certified",
     discount: "FLAT 25% OFF",
-    priceNote: "Original Sealed 5g & 10g Tins",
     href: "/category/kitchen-spices",
     icon: "🔥",
   },
   {
     id: "sale-3",
-    badge: "LIMITED DROP",
-    badgeColor: "bg-emerald-500/20 text-emerald-300 border-emerald-500/40",
+    badge: "NEW DROP",
+    badgeColor: "bg-emerald-100 text-emerald-800 border-emerald-200",
     title: "Turkish Luxury Embroidered Silk Suits",
     origin: "🇹🇷 Istanbul Boutiques",
     discount: "SAVE RS. 2,000",
-    priceNote: "Premium 3-Piece Festive Edition",
     href: "/category/ladies-suits",
     icon: "✨",
   },
   {
     id: "sale-4",
-    badge: "CLEARANCE",
-    badgeColor: "bg-purple-500/20 text-purple-300 border-purple-500/40",
+    badge: "EXPORT CLEARANCE",
+    badgeColor: "bg-navy-100 text-navy-900 border-navy-200",
     title: "Original Export Selvedge Denim & Chinos",
     origin: "👖 Handpicked Batches",
     discount: "FLAT 30% OFF",
-    priceNote: "Rs. 2,850 Only (Standard Export Fit)",
     href: "/category/gents-pants",
     icon: "⚡",
   },
   {
     id: "sale-5",
     badge: "SEALED BATCH",
-    badgeColor: "bg-blue-500/20 text-blue-300 border-blue-500/40",
+    badgeColor: "bg-blue-100 text-blue-900 border-blue-200",
     title: "USA Biotin & Joint Health Supplements",
     origin: "🇺🇸 100% Genuine USA",
     discount: "BUY 2 SAVE 15%",
-    priceNote: "Sealed Verification Batch",
     href: "/category/medicines",
     icon: "💊",
   },
   {
     id: "sale-6",
-    badge: "FREE SHIPPING",
-    badgeColor: "bg-gold-500/20 text-gold-300 border-gold-500/40",
+    badge: "ZERO FREIGHT",
+    badgeColor: "bg-gold-100 text-gold-950 border-gold-300",
     title: "Free TCS / Leopards Express Delivery",
     origin: "📦 Nationwide Pakistan",
-    discount: "ZERO FREIGHT",
-    priceNote: "On All Orders Above Rs. 5,000",
+    discount: "ORDERS > 5K",
     href: "/shop",
     icon: "🎁",
   },
@@ -87,22 +80,29 @@ const SALE_CARDS: SaleCardItem[] = [
 
 export function HeaderSaleSlider() {
   return (
-    <div className="relative bg-gradient-to-r from-navy-950 via-navy-900 to-navy-950 text-white border-b border-gold-500/20 overflow-hidden py-2.5 shadow-md">
-      {/* Left fixed label */}
-      <div className="absolute left-0 top-0 bottom-0 z-20 hidden md:flex items-center pl-4 pr-6 bg-gradient-to-r from-navy-950 via-navy-950 to-transparent">
-        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-gold-500/10 border border-gold-500/30 text-gold-400 text-xs font-bold shadow-inner">
-          <Flame className="w-4 h-4 text-amber-400 animate-bounce" />
-          <span className="uppercase tracking-wider text-[11px]">Today's Live Deals</span>
+    <div className="relative bg-gradient-to-r from-amber-50 via-gold-50/70 to-amber-50 text-navy-950 border-y border-amber-200/80 overflow-hidden py-2 shadow-xs">
+      {/* Top subtle golden shimmer line */}
+      <div className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-gold-400 to-transparent opacity-80" />
+
+      {/* Left fixed live badge for desktop */}
+      <div className="absolute left-0 top-0 bottom-0 z-20 hidden md:flex items-center pl-4 pr-6 bg-gradient-to-r from-amber-50 via-amber-50/95 to-transparent">
+        <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-navy-950 text-gold-400 text-xs font-bold border border-gold-500/40 shadow-xs">
+          <span className="flex h-2 w-2 relative">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-gold-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-gold-400"></span>
+          </span>
+          <Flame className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+          <span className="uppercase tracking-wider text-[10px] font-black">Live Flash Deals</span>
         </div>
       </div>
 
-      {/* Left & Right gradient fade masks for smooth infinity look */}
-      <div className="absolute left-0 top-0 bottom-0 w-8 md:w-44 bg-gradient-to-r from-navy-950 to-transparent z-10 pointer-events-none" />
-      <div className="absolute right-0 top-0 bottom-0 w-12 md:w-28 bg-gradient-to-l from-navy-950 to-transparent z-10 pointer-events-none" />
+      {/* Left & Right gradient fade masks for smooth infinite scrolling */}
+      <div className="absolute left-0 top-0 bottom-0 w-8 md:w-48 bg-gradient-to-r from-amber-50 to-transparent z-10 pointer-events-none" />
+      <div className="absolute right-0 top-0 bottom-0 w-12 md:w-32 bg-gradient-to-l from-amber-50 to-transparent z-10 pointer-events-none" />
 
       {/* Infinite loop marquee track */}
       <div className="flex items-center">
-        <div className="animate-loop-scroll flex items-center gap-3 md:gap-4 pl-4 hover:cursor-pointer">
+        <div className="animate-loop-scroll flex items-center gap-3 md:gap-3.5 pl-4 hover:cursor-pointer">
           {/* First set of cards */}
           {SALE_CARDS.map((card) => (
             <SaleCard key={`card-1-${card.id}`} card={card} />
@@ -122,10 +122,10 @@ function SaleCard({ card }: { card: SaleCardItem }) {
   return (
     <Link
       href={card.href}
-      className="group shrink-0 flex items-center gap-3 px-3.5 py-1.5 rounded-2xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 hover:border-gold-500/50 backdrop-blur-md transition-all duration-300 hover:scale-[1.02] hover:shadow-gold-glow"
+      className="group shrink-0 flex items-center gap-2.5 px-3 py-1.5 rounded-2xl bg-white hover:bg-gold-50/40 border border-amber-200/70 hover:border-gold-500/80 shadow-xs hover:shadow-md transition-all duration-300 hover:-translate-y-0.5"
     >
       {/* Icon Badge */}
-      <div className="w-8 h-8 rounded-xl bg-navy-950/80 border border-gold-500/30 flex items-center justify-center text-base shadow-sm shrink-0 group-hover:scale-110 transition-transform">
+      <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-navy-950 to-navy-900 text-gold-400 border border-gold-500/30 flex items-center justify-center text-sm shadow-xs shrink-0 group-hover:scale-105 transition-transform">
         {card.icon}
       </div>
 
@@ -133,27 +133,27 @@ function SaleCard({ card }: { card: SaleCardItem }) {
       <div className="flex flex-col text-left">
         <div className="flex items-center gap-1.5">
           <span
-            className={`text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded-md border tracking-wider ${card.badgeColor}`}
+            className={`text-[9px] font-black uppercase px-1.5 py-0.2 rounded-md border tracking-wider ${card.badgeColor}`}
           >
             {card.badge}
           </span>
-          <span className="text-[10px] text-slate-400 font-medium">
+          <span className="text-[10px] text-slate-500 font-medium">
             {card.origin}
           </span>
         </div>
 
         <div className="flex items-center gap-2 mt-0.5">
-          <span className="text-xs font-bold text-white group-hover:text-gold-300 transition-colors whitespace-nowrap">
+          <span className="text-xs font-bold text-navy-950 group-hover:text-gold-700 transition-colors whitespace-nowrap">
             {card.title}
           </span>
-          <span className="text-[11px] font-black text-amber-400 bg-amber-400/10 px-1.5 rounded border border-amber-400/20 whitespace-nowrap">
+          <span className="text-[10px] font-black bg-gradient-to-r from-amber-500 to-gold-500 text-navy-950 px-2 py-0.5 rounded-full shadow-xs whitespace-nowrap tracking-tight">
             {card.discount}
           </span>
         </div>
       </div>
 
       {/* Arrow CTA */}
-      <div className="ml-1 text-slate-400 group-hover:text-gold-400 group-hover:translate-x-1 transition-all">
+      <div className="ml-0.5 text-slate-400 group-hover:text-gold-600 group-hover:translate-x-1 transition-all">
         <ArrowRight className="w-3.5 h-3.5" />
       </div>
     </Link>
