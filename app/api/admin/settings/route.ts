@@ -5,6 +5,8 @@ import { settingsAdminSchema } from "@/lib/validators";
 import { isSupabaseConfigured, getSiteSettings } from "@/lib/supabase/data-service";
 import { MOCK_SETTINGS } from "@/lib/supabase/mock-data";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(req: NextRequest) {
   const settings = await getSiteSettings();
   return NextResponse.json({ settings });

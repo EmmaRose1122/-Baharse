@@ -1,4 +1,4 @@
-import { createClient } from "./server";
+import { createClient, createPublicClient } from "./server";
 import { createAdminClient } from "./admin";
 import { Category, Product, Order, SiteSettings, Message } from "@/types";
 import { MOCK_CATEGORIES, MOCK_PRODUCTS, MOCK_SETTINGS, MOCK_ORDERS } from "./mock-data";
@@ -31,7 +31,7 @@ export async function getCategories(): Promise<Category[]> {
   }
 
   try {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
     const { data, error } = await supabase
       .from("categories")
       .select("*")
@@ -139,7 +139,7 @@ export async function getProducts(options?: {
   }
 
   try {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
     let query = supabase.from("products").select("*, category:categories(*)", { count: "exact" });
 
     query = query.eq("is_active", true);
@@ -211,7 +211,7 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
   }
 
   try {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
     const { data, error } = await supabase
       .from("products")
       .select("*, category:categories(*)")
@@ -257,7 +257,7 @@ export async function getSiteSettings(): Promise<SiteSettings> {
   }
 
   try {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
     const { data, error } = await supabase
       .from("site_settings")
       .select("*")
@@ -565,7 +565,7 @@ export async function trackOrder(
 
   if (isSupabaseConfigured()) {
     try {
-      const supabase = await createClient();
+      const supabase = createPublicClient();
       const { data, error } = await supabase
         .from("orders")
         .select("*")
@@ -612,7 +612,7 @@ export async function submitContactMessage(messageInput: {
 }): Promise<{ success: boolean; error?: string }> {
   if (isSupabaseConfigured()) {
     try {
-      const supabase = await createClient();
+      const supabase = createPublicClient();
       const { error } = await supabase.from("messages").insert({
         name: messageInput.name,
         phone: messageInput.phone,

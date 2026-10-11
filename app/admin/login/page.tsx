@@ -3,8 +3,7 @@
 import React, { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { Plane, Lock, Mail, ArrowRight, ShieldCheck, Sparkles } from "lucide-react";
-import { createClient } from "@/lib/supabase/client";
+import { Plane, Lock, Mail, ArrowRight, ShieldAlert, KeyRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 
@@ -22,49 +21,27 @@ export default function AdminLoginPage() {
     setIsLoading(true);
 
     try {
-      const supabase = createClient();
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
+      const res = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
       });
 
-      if (error) {
-        // If Supabase is in demo/placeholder mode, accept demo credentials
-        if (
-          email === "admin@importedgoods.pk" ||
-          password === "admin123" ||
-          error.message.includes("fetch failed") ||
-          error.message.includes("placeholder")
-        ) {
-          toast.success("Welcome! Logged into Admin Portal (Demo Mode).");
-          router.push(redirectPath);
-          return;
-        }
+      const data = await res.json();
 
-        toast.error(error.message || "Invalid email or password.");
+      if (!res.ok) {
+        toast.error(data.error || "Ghalat email ya password. Access denied.");
         setIsLoading(false);
         return;
       }
 
-      toast.success("Welcome back! Login successful.");
+      toast.success("Welcome! Login successful.");
       router.push(redirectPath);
       router.refresh();
     } catch {
-      // Demo fallback
-      toast.success("Welcome! Logged in successfully.");
-      router.push(redirectPath);
-    } finally {
+      toast.error("Authentication failed. Please check your network and try again.");
       setIsLoading(false);
     }
-  };
-
-  const handleQuickDemoLogin = () => {
-    setEmail("admin@importedgoods.pk");
-    setPassword("admin123");
-    toast.success("Demo credentials loaded. Signing in...");
-    setTimeout(() => {
-      router.push("/admin");
-    }, 500);
   };
 
   return (
@@ -76,11 +53,19 @@ export default function AdminLoginPage() {
             <Plane className="w-7 h-7 transform -rotate-45" />
           </div>
           <h1 className="text-2xl font-serif font-bold text-navy-950">
-            BaharSe Imports Portal
+            BaharSe Admin Portal
           </h1>
           <p className="text-xs text-slate-500">
-            Secure admin authentication for store owner and staff
+            Secure store administration & stock management
           </p>
+        </div>
+
+        {/* Security Warning Notice */}
+        <div className="p-3 bg-amber-50 border border-amber-200/80 rounded-2xl flex items-start gap-2.5 text-amber-900">
+          <ShieldAlert className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+          <div className="text-xs leading-relaxed">
+            <span className="font-bold">Restricted Access:</span> This portal is protected. Only authorized administrators with credentials configured in the system environment can sign in.
+          </div>
         </div>
 
         {/* Login Form */}
@@ -88,14 +73,15 @@ export default function AdminLoginPage() {
           <div className="space-y-1.5">
             <label className="text-xs font-bold text-navy-950 flex items-center gap-1.5">
               <Mail className="w-3.5 h-3.5 text-slate-400" />
-              Email Address
+              Admin Email
             </label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="owner@importedgoods.pk"
+              placeholder="admin@baharse.pk"
               required
+              autoComplete="username"
               className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm text-navy-950 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-gold-500"
             />
           </div>
@@ -103,7 +89,7 @@ export default function AdminLoginPage() {
           <div className="space-y-1.5">
             <label className="text-xs font-bold text-navy-950 flex items-center gap-1.5">
               <Lock className="w-3.5 h-3.5 text-slate-400" />
-              Password
+              Secret Password
             </label>
             <input
               type="password"
@@ -111,6 +97,7 @@ export default function AdminLoginPage() {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••••••"
               required
+              autoComplete="current-password"
               className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm text-navy-950 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-gold-500"
             />
           </div>
@@ -120,28 +107,17 @@ export default function AdminLoginPage() {
             variant="gold"
             size="lg"
             isLoading={isLoading}
-            className="w-full font-bold shadow-gold-glow"
+            className="w-full font-bold shadow-gold-glow flex items-center justify-center gap-2"
           >
+            <KeyRound className="w-4 h-4" />
             Sign In to Dashboard <ArrowRight className="w-4 h-4 ml-1" />
           </Button>
         </form>
 
-        {/* Quick Demo Login Option */}
-        <div className="pt-2 border-t border-slate-100">
-          <button
-            type="button"
-            onClick={handleQuickDemoLogin}
-            className="w-full py-2.5 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-colors flex items-center justify-center gap-2"
-          >
-            <Sparkles className="w-4 h-4 text-gold-600" />
-            1-Click Demo Login (Instant Access)
-          </button>
-        </div>
-
-        <div className="text-center pt-2">
+        <div className="text-center pt-2 border-t border-slate-100">
           <Link
             href="/"
-            className="text-xs text-slate-500 hover:text-navy-950 hover:underline"
+            className="text-xs text-slate-500 hover:text-navy-950 hover:underline inline-flex items-center gap-1"
           >
             ← Back to Customer Website
           </Link>

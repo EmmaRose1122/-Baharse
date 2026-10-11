@@ -4,6 +4,8 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { isSupabaseConfigured } from "@/lib/supabase/data-service";
 import { Message } from "@/types";
 
+export const dynamic = "force-dynamic";
+
 const mockAdminMessages: Message[] = [
   {
     id: "msg-demo-1",

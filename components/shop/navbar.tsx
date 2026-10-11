@@ -16,6 +16,7 @@ import {
   UserCheck,
 } from "lucide-react";
 import { useCartStore } from "@/store/cart-store";
+import { HeaderSaleSlider } from "@/components/shop/header-sale-slider";
 
 export function Navbar() {
   const router = useRouter();
@@ -190,6 +191,9 @@ export function Navbar() {
           </div>
         </nav>
       </div>
+
+      {/* Live Sale Cards Infinite Loop Slider */}
+      <HeaderSaleSlider />
 
       {/* Mobile Drawer Navigation */}
       {mobileMenuOpen && (

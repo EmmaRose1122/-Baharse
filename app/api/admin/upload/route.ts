@@ -3,6 +3,8 @@ import { verifyAdminSession } from "@/lib/supabase/auth-guard";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { isSupabaseConfigured } from "@/lib/supabase/data-service";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: NextRequest) {
   const auth = await verifyAdminSession(req);
   if (!auth.isAuthenticated) {

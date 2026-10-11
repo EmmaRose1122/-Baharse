@@ -19,13 +19,15 @@ export function AdminNavbar({
 
   const handleSignOut = async () => {
     try {
+      await fetch("/api/admin/logout", { method: "POST" });
       const supabase = createClient();
       await supabase.auth.signOut();
+    } catch {
+      // Ignored
+    } finally {
       toast.success("Signed out of admin portal.");
       router.push("/admin/login");
       router.refresh();
-    } catch {
-      router.push("/admin/login");
     }
   };
 
